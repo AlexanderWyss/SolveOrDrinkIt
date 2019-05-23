@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1b0a52d9230546fb95f8493ab6eba056" Name="Diagram1">
+        <EntityTypeShape EntityType="SolveOrDrinkItModel.Deck" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SolveOrDrinkItModel.Game" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SolveOrDrinkItModel.Score" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SolveOrDrinkItModel.Task" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SolveOrDrinkItModel.GameUser" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="SolveOrDrinkItModel.Game_fk0" ManuallyRouted="false" />
+        <AssociationConnector Association="SolveOrDrinkItModel.GameUser_fk0" ManuallyRouted="false" />
+        <AssociationConnector Association="SolveOrDrinkItModel.Score_fk0" ManuallyRouted="false" />
+        <AssociationConnector Association="SolveOrDrinkItModel.DeckTask" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

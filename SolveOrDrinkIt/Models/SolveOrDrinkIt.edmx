@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SolveOrDrinkItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Deck">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SolveOrDrinkIt.dbo.DeckTask' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DeckTask">
+          <Key>
+            <PropertyRef Name="taskId" />
+            <PropertyRef Name="deckId" />
+          </Key>
+          <Property Name="taskId" Type="int" Nullable="false" />
+          <Property Name="deckId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deckId" Type="int" Nullable="false" />
+          <Property Name="playDatetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GameUser">
+          <Key>
+            <PropertyRef Name="gameId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="gameId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Score">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="gameId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="text" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="drinks" Type="int" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="DeckTask_fk0">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="DeckTask" Type="Self.DeckTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DeckTask">
+              <PropertyRef Name="taskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DeckTask_fk1">
+          <End Role="Deck" Type="Self.Deck" Multiplicity="1" />
+          <End Role="DeckTask" Type="Self.DeckTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deck">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DeckTask">
+              <PropertyRef Name="deckId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Game_fk0">
+          <End Role="Deck" Type="Self.Deck" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deck">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="deckId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GameUser_fk0">
+          <End Role="Game" Type="Self.Game" Multiplicity="1" />
+          <End Role="GameUser" Type="Self.GameUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="GameUser">
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Score_fk0">
+          <End Role="Game" Type="Self.Game" Multiplicity="1" />
+          <End Role="Score" Type="Self.Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Score">
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SolveOrDrinkItModelStoreContainer">
+          <EntitySet Name="Deck" EntityType="Self.Deck" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeckTask" EntityType="Self.DeckTask" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DeckTask].[taskId] AS [taskId], 
+    [DeckTask].[deckId] AS [deckId]
+    FROM [dbo].[DeckTask] AS [DeckTask]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="GameUser" EntityType="Self.GameUser" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GameUser].[gameId] AS [gameId], 
+    [GameUser].[userId] AS [userId]
+    FROM [dbo].[GameUser] AS [GameUser]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="DeckTask_fk0" Association="Self.DeckTask_fk0">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="DeckTask" EntitySet="DeckTask" />
+          </AssociationSet>
+          <AssociationSet Name="DeckTask_fk1" Association="Self.DeckTask_fk1">
+            <End Role="Deck" EntitySet="Deck" />
+            <End Role="DeckTask" EntitySet="DeckTask" />
+          </AssociationSet>
+          <AssociationSet Name="Game_fk0" Association="Self.Game_fk0">
+            <End Role="Deck" EntitySet="Deck" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="GameUser_fk0" Association="Self.GameUser_fk0">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="GameUser" EntitySet="GameUser" />
+          </AssociationSet>
+          <AssociationSet Name="Score_fk0" Association="Self.Score_fk0">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="Score" EntitySet="Score" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SolveOrDrinkItModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Deck">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="Self.Game_fk0" FromRole="Deck" ToRole="Game" />
+          <NavigationProperty Name="Tasks" Relationship="Self.DeckTask" FromRole="Deck" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deckId" Type="Int32" Nullable="false" />
+          <Property Name="playDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Deck" Relationship="Self.Game_fk0" FromRole="Game" ToRole="Deck" />
+          <NavigationProperty Name="GameUsers" Relationship="Self.GameUser_fk0" FromRole="Game" ToRole="GameUser" />
+          <NavigationProperty Name="Scores" Relationship="Self.Score_fk0" FromRole="Game" ToRole="Score" />
+        </EntityType>
+        <EntityType Name="Score">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gameId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="score1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Game" Relationship="Self.Score_fk0" FromRole="Score" ToRole="Game" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="drinks" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Decks" Relationship="Self.DeckTask" FromRole="Task" ToRole="Deck" />
+        </EntityType>
+        <EntityType Name="GameUser">
+          <Key>
+            <PropertyRef Name="gameId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="gameId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Game" Relationship="Self.GameUser_fk0" FromRole="GameUser" ToRole="Game" />
+        </EntityType>
+        <Association Name="Game_fk0">
+          <End Role="Deck" Type="Self.Deck" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deck">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="deckId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GameUser_fk0">
+          <End Role="Game" Type="Self.Game" Multiplicity="1" />
+          <End Role="GameUser" Type="Self.GameUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="GameUser">
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Score_fk0">
+          <End Role="Game" Type="Self.Game" Multiplicity="1" />
+          <End Role="Score" Type="Self.Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Score">
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DeckTask">
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SolveOrDrinkItEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Decks" EntityType="Self.Deck" />
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="Scores" EntityType="Self.Score" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="GameUsers" EntityType="Self.GameUser" />
+          <AssociationSet Name="Game_fk0" Association="Self.Game_fk0">
+            <End Role="Deck" EntitySet="Decks" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="GameUser_fk0" Association="Self.GameUser_fk0">
+            <End Role="Game" EntitySet="Games" />
+            <End Role="GameUser" EntitySet="GameUsers" />
+          </AssociationSet>
+          <AssociationSet Name="Score_fk0" Association="Self.Score_fk0">
+            <End Role="Game" EntitySet="Games" />
+            <End Role="Score" EntitySet="Scores" />
+          </AssociationSet>
+          <AssociationSet Name="DeckTask" Association="Self.DeckTask">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Deck" EntitySet="Decks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SolveOrDrinkItModelStoreContainer" CdmEntityContainer="SolveOrDrinkItEntities">
+          <EntitySetMapping Name="Decks">
+            <EntityTypeMapping TypeName="SolveOrDrinkItModel.Deck">
+              <MappingFragment StoreEntitySet="Deck">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="SolveOrDrinkItModel.Game">
+              <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deckId" ColumnName="deckId" />
+                <ScalarProperty Name="playDatetime" ColumnName="playDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scores">
+            <EntityTypeMapping TypeName="SolveOrDrinkItModel.Score">
+              <MappingFragment StoreEntitySet="Score">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="gameId" ColumnName="gameId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="score1" ColumnName="score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="SolveOrDrinkItModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="drinks" ColumnName="drinks" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameUsers">
+            <EntityTypeMapping TypeName="SolveOrDrinkItModel.GameUser">
+              <MappingFragment StoreEntitySet="GameUser">
+                <ScalarProperty Name="gameId" ColumnName="gameId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DeckTask" TypeName="SolveOrDrinkItModel.DeckTask" StoreEntitySet="DeckTask">
+            <EndProperty Name="Task">
+              <ScalarProperty Name="id" ColumnName="taskId" />
+            </EndProperty>
+            <EndProperty Name="Deck">
+              <ScalarProperty Name="id" ColumnName="deckId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
