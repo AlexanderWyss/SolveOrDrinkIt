@@ -314,10 +314,6 @@
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Tasks\Edit.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
-    <Content Include="Views\Scores\Create.cshtml" />
-    <Content Include="Views\Scores\Delete.cshtml" />
-    <Content Include="Views\Scores\Details.cshtml" />
-    <Content Include="Views\Scores\Edit.cshtml" />
     <Content Include="Views\Scores\Index.cshtml" />
     <Content Include="Views\Decks\Create.cshtml" />
     <Content Include="Views\Decks\Delete.cshtml" />
