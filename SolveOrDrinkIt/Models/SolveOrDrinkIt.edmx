@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SolveOrDrinkItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SolveOrDrinkItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Deck">
           <Key>
             <PropertyRef Name="id" />
@@ -56,7 +56,7 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a prima
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="text" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="drinks" Type="int" Nullable="false" />
-          <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="DeckTask_fk0">
           <End Role="Task" Type="Self.Task" Multiplicity="1" />
@@ -156,8 +156,7 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a prima
             <End Role="Score" EntitySet="Score" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SolveOrDrinkItModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -198,7 +197,7 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a prima
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="text" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="drinks" Type="Int32" Nullable="false" />
-          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Decks" Relationship="Self.DeckTask" FromRole="Task" ToRole="Deck" />
         </EntityType>
         <EntityType Name="GameUser">
@@ -309,10 +308,10 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a prima
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="SolveOrDrinkItModel.Task">
               <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="drinks" ColumnName="drinks" />
-                <ScalarProperty Name="type" ColumnName="type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

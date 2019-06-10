@@ -23,7 +23,7 @@ namespace SolveOrDrinkIt.Models
         public int id { get; set; }
         public string text { get; set; }
         public int drinks { get; set; }
-        public string type { get; set; }
+        public int type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Deck> Decks { get; set; }
