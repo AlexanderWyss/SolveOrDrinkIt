@@ -194,6 +194,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DecksController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ScoresController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
@@ -327,6 +328,7 @@
     <Content Include="Views\Decks\Details.cshtml" />
     <Content Include="Views\Decks\Edit.cshtml" />
     <Content Include="Views\Decks\Index.cshtml" />
+    <Content Include="Views\Games\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

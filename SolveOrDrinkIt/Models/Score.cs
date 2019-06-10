@@ -15,8 +15,11 @@ namespace SolveOrDrinkIt.Models
     public partial class Score
     {
         public int id { get; set; }
+
         public int gameId { get; set; }
+        [System.ComponentModel.DisplayName("Username")]
         public string userId { get; set; }
+        [System.ComponentModel.DisplayName("Score")]
         public int score1 { get; set; }
     
         public virtual Game Game { get; set; }

@@ -20,7 +20,7 @@ namespace SolveOrDrinkIt.Models
             this.GameUsers = new HashSet<GameUser>();
             this.Scores = new HashSet<Score>();
         }
-    
+        [System.ComponentModel.DisplayName("Game-ID")]
         public int id { get; set; }
         public int deckId { get; set; }
         public System.DateTime playDatetime { get; set; }
