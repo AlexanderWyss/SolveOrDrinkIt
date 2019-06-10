@@ -23,6 +23,11 @@ namespace SolveOrDrinkIt.Controllers
             ViewBag.deckId = new SelectList(db.Decks, "id", "name");
             return View();
         }
+        // GET: Games/JoinGame
+        public ActionResult JoinGame()
+        {
+            return View();
+        }
 
         // POST: Games/Create
         // Aktivieren Sie zum Schutz vor übermäßigem Senden von Angriffen die spezifischen Eigenschaften, mit denen eine Bindung erfolgen soll. Weitere Informationen 

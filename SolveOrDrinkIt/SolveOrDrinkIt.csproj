@@ -329,6 +329,7 @@
     <Content Include="Views\Decks\Edit.cshtml" />
     <Content Include="Views\Decks\Index.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\Games\JoinGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

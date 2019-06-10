@@ -23,7 +23,8 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Game", "Index", "Games")</li>
+                    <li>@Html.ActionLink("Create Game", "Index", "Games")</li>
+                    <li>@Html.ActionLink("Join Game", "JoinGame", "Games")</li>
                     <li>@Html.ActionLink("Deck", "Index", "Decks")</li>
                     <li>@Html.ActionLink("Tasks", "Index", "Tasks")</li>
                     <li>@Html.ActionLink("Score", "Index", "Scores")</li>
