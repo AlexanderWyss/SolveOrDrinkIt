@@ -16,7 +16,8 @@ namespace SolveOrDrinkIt.Models
         {
             id = task.id;
             text = task.text;
-            drinks = task.drinks;
+            drinks = task.drinks; 
+            type = (Type) task.type;
         }
 
         public int id { get; set; }

@@ -17,7 +17,17 @@ namespace SolveOrDrinkIt.Controllers
         
         public ActionResult Index()
         {
-            return View(repo.GetAll());
+            return View(ToViewModel(repo.GetAll()));
+        }
+
+        private IEnumerable<TaskViewModel> ToViewModel(IEnumerable<Task> getAll)
+        {
+            List<TaskViewModel> taskViewModels = new List<TaskViewModel>();
+            foreach (var task in getAll)
+            {
+                taskViewModels.Add(new TaskViewModel(task));
+            }
+            return taskViewModels;
         }
 
         public ActionResult Details(int? id)
@@ -32,7 +42,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return HttpNotFound();
             }
-            return View(task);
+            return View(new TaskViewModel(task));
         }
         
         public ActionResult Create()
@@ -51,7 +61,7 @@ namespace SolveOrDrinkIt.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(task);
+            return View(new TaskViewModel(task));
         }
         
         public ActionResult Edit(int? id)
@@ -65,7 +75,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return HttpNotFound();
             }
-            return View(task);
+            return View(new TaskViewModel(task));
         }
         
         [HttpPost]
@@ -78,7 +88,7 @@ namespace SolveOrDrinkIt.Controllers
                 repo.Save();
                 return RedirectToAction("Index");
             }
-            return View(task);
+            return View(new TaskViewModel(task));
         }
         
         public ActionResult Delete(int? id)
@@ -92,7 +102,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return HttpNotFound();
             }
-            return View(task);
+            return View(new TaskViewModel(task));
         }
         
         [HttpPost, ActionName("Delete")]
