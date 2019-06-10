@@ -10,6 +10,8 @@ using SolveOrDrinkIt.Models;
 
 namespace SolveOrDrinkIt.Controllers
 {
+
+    [Authorize]
     public class ScoresController : Controller
     {
         private SolveOrDrinkItEntities db = new SolveOrDrinkItEntities();

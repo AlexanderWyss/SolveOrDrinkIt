@@ -11,6 +11,7 @@ using SolveOrDrinkIt.Repositories;
 
 namespace SolveOrDrinkIt.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         private TaskRepository repo = new TaskRepository(new SolveOrDrinkItEntities());
