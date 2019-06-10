@@ -18,7 +18,7 @@ namespace SolveOrDrinkIt.Repositories
             Context = context;
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(int? id)
         {
             return Context.Set<TEntity>().Find(id);
         }
@@ -62,6 +62,12 @@ namespace SolveOrDrinkIt.Repositories
             Context.Set<TEntity>().Remove(entity);
         }
 
+        public void Remove(int? id)
+        {
+            TEntity entity = Get(id);
+            Remove(entity);
+        }
+
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
@@ -71,6 +77,11 @@ namespace SolveOrDrinkIt.Repositories
         {
             Context.Set<TEntity>().Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Save()
+        {
+            Context.SaveChanges();
         }
     }
 }
