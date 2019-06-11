@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using SolveOrDrinkIt.Models;
 using SolveOrDrinkIt.Repositories;
 using Task = System.Threading.Tasks.Task;
@@ -140,17 +141,14 @@ namespace SolveOrDrinkIt.Controllers
                 deck = repo.Get(deckVM.id);
                 deck.name = deckVM.name;
             }
-            ReplaceTasks(deck, deckVM.selectedIds);
+            ReplaceTasks(deck, deckVM.tasks);
             return deck;
         }
 
-        private void ReplaceTasks(Deck deck, int[] selectedIds)
+        private void ReplaceTasks(Deck deck, IEnumerable<CheckBoxListItem> selectedTasks)
         {
             deck.Tasks.Clear();
-            foreach (int selectedTaskId in selectedIds)
-            {
-                deck.Tasks.Add(taskRepo.Get(selectedTaskId));
-            }
+            selectedTasks.Where(task => task.IsChecked).ForEach(task => deck.Tasks.Add(taskRepo.Get(task.id)));
         }
     }
 }

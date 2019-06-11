@@ -1,0 +1,6 @@
+﻿@model SolveOrDrinkIt.Models.CheckBoxListItem
+
+@Html.HiddenFor(x => x.id)
+@Html.CheckBoxFor(x => x.IsChecked)
+@Html.LabelFor(x => x.IsChecked, Model.Display) 
+<br />

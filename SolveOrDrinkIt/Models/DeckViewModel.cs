@@ -15,23 +15,23 @@ namespace SolveOrDrinkIt.Models
         }
         public DeckViewModel(IEnumerable<Task> tasks)
         {
-            setItems(tasks);
+            setItems(new List<Task>(), tasks);
         }
 
         public DeckViewModel(Deck deck, IEnumerable<Task> tasks)
         {
             id = deck.id;
             name = deck.name;
-            selectedIds = deck.Tasks.Select(task => task.id).ToArray();
-            setItems(tasks);
+            setItems(deck.Tasks, tasks);
         }
 
-        private void setItems(IEnumerable<Task> tasks)
+        private void setItems(IEnumerable<Task> checkedTasks, IEnumerable<Task> allTasks)
         {
-            items = tasks.Select(task => new SelectListItem
+            tasks = allTasks.Select(task => new CheckBoxListItem()
             {
-                Value = task.id.ToString(),
-                Text = task.text
+                id = task.id,
+                Display = task.text,
+                IsChecked = checkedTasks.Any(checkedTask => checkedTask.id == task.id)
             });
         }
 
@@ -39,8 +39,6 @@ namespace SolveOrDrinkIt.Models
 
         [Required]
         public string name { get; set; }
-        public IEnumerable<SelectListItem> items { get; set; }
-        [Required]
-        public int[] selectedIds { get; set; }
+        public IEnumerable<CheckBoxListItem> tasks { get; set; }
     }
 }
