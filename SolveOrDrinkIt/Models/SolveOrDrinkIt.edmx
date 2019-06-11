@@ -12,8 +12,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SolveOrDrinkIt.dbo.DeckTask' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DeckTask">
           <Key>
             <PropertyRef Name="taskId" />
@@ -30,8 +28,6 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.DeckTask' does not have a prima
           <Property Name="deckId" Type="int" Nullable="false" />
           <Property Name="playDatetime" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GameUser">
           <Key>
             <PropertyRef Name="gameId" />
@@ -120,21 +116,11 @@ warning 6002: The table/view 'SolveOrDrinkIt.dbo.GameUser' does not have a prima
         </Association>
         <EntityContainer Name="SolveOrDrinkItModelStoreContainer">
           <EntitySet Name="Deck" EntityType="Self.Deck" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeckTask" EntityType="Self.DeckTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameUser" EntityType="Self.GameUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DeckTask" EntityType="Self.DeckTask" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DeckTask].[taskId] AS [taskId], 
-    [DeckTask].[deckId] AS [deckId]
-    FROM [dbo].[DeckTask] AS [DeckTask]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="GameUser" EntityType="Self.GameUser" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [GameUser].[gameId] AS [gameId], 
-    [GameUser].[userId] AS [userId]
-    FROM [dbo].[GameUser] AS [GameUser]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="DeckTask_fk0" Association="Self.DeckTask_fk0">
             <End Role="Task" EntitySet="Task" />
             <End Role="DeckTask" EntitySet="DeckTask" />

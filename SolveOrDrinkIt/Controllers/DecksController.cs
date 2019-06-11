@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SolveOrDrinkIt.Models;
+using SolveOrDrinkIt.Repositories;
+using Task = System.Threading.Tasks.Task;
 
 namespace SolveOrDrinkIt.Controllers
 {
@@ -14,6 +16,12 @@ namespace SolveOrDrinkIt.Controllers
     public class DecksController : Controller
     {
         private SolveOrDrinkItEntities db = new SolveOrDrinkItEntities();
+        private TaskRepository taskRepo;
+
+        public DecksController()
+        {
+            taskRepo = new TaskRepository(db);
+        }
 
         // GET: Decks
         public ActionResult Index()
@@ -39,7 +47,7 @@ namespace SolveOrDrinkIt.Controllers
         // GET: Decks/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new DeckViewModel(db.Tasks.ToList()));
         }
 
         // POST: Decks/Create
@@ -47,16 +55,30 @@ namespace SolveOrDrinkIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name")] Deck deck)
+        public ActionResult Create(DeckViewModel deck)
         {
             if (ModelState.IsValid)
             {
-                db.Decks.Add(deck);
+                db.Decks.Add(toModel(deck));
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(deck);
+        }
+
+        private Deck toModel(DeckViewModel deckVM)
+        {
+            Deck deck = new Deck()
+            {
+                id = deckVM.id,
+                name = deckVM.name
+            };
+            foreach (int selectedTaskId in deckVM.selectedIds)
+            {
+                deck.Tasks.Add(taskRepo.Get(selectedTaskId));
+            }
+            return deck;
         }
 
         // GET: Decks/Edit/5

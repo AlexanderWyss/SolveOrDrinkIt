@@ -234,6 +234,7 @@
     <Compile Include="Models\Task.cs">
       <DependentUpon>SolveOrDrinkIt.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeckViewModel.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
