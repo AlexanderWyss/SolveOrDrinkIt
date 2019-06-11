@@ -7,7 +7,8 @@
 <h2>Game</h2>
 <div class="container">
     <p id="task"></p>
-    <input type="button" id="next" value="Next" />
+    <input type="button" id="completed" value="Completed" />
+    <input type="button" id="drink" value="Drink" />
     <input type="button" id="end" value="End" />
 </div>
 @section scripts {
@@ -18,8 +19,9 @@
             var gameId = @Html.Raw(Json.Encode(Model.id));
             var gameHub = $.connection.gameHub;
 
-            gameHub.client.newTask = function (msg) {
-                    $('#task').text(msg.replace('task', ''));
+            gameHub.client.newTask = function (showCompleted, msg) {
+                $('#completed').toggle(showCompleted);
+                $('#task').text(msg.replace('task', ''));
             };
             gameHub.client.endGame = function() {
                 $.connection.hub.stop();
@@ -27,8 +29,12 @@
             };
             $.connection.hub.start().done(function () {
                 gameHub.server.joinGame(gameId);
-                $('#next').click(function () {
-                    gameHub.server.nextTask(gameId);
+                gameHub.server.getTask(gameId);
+                $('#completed').click(function () {
+                    gameHub.server.completed(gameId);
+                });
+                $('#drink').click(function () {
+                    gameHub.server.drink(gameId);
                 });
                 $('#end').click(function() {
                     gameHub.server.endGame(gameId);
