@@ -5,4 +5,35 @@
 }
 
 <h2>Game</h2>
+<div class="container">
+    <p id="task"></p>
+    <input type="button" id="next" value="Next" />
+    <input type="button" id="end" value="End" />
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            var gameId = @Html.Raw(Json.Encode(Model.id));
+            var gameHub = $.connection.gameHub;
 
+            gameHub.client.newTask = function (msg) {
+                    $('#task').text(msg.replace('task', ''));
+            };
+            gameHub.client.endGame = function() {
+                $.connection.hub.stop();
+                window.location.href = "/Games/JoinGame";
+            };
+            $.connection.hub.start().done(function () {
+                gameHub.server.joinGame(gameId);
+                $('#next').click(function () {
+                    gameHub.server.nextTask(gameId);
+                });
+                $('#end').click(function() {
+                    gameHub.server.endGame(gameId);
+                });
+            });
+        });
+    </script>
+}

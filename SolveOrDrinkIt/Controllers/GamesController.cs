@@ -8,15 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.SignalR;
 using SolveOrDrinkIt.Models;
 using SolveOrDrinkIt.Repositories;
 
 namespace SolveOrDrinkIt.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     public class GamesController : Controller
     {
-        private static List<int> currentGames = new List<int>();
+        public static List<int> currentGames = new List<int>();
 
         private GameRepository repo;
         private DeckRepository deckRepo;
@@ -72,26 +73,24 @@ namespace SolveOrDrinkIt.Controllers
 
         public ActionResult Game(int id)
         {
-
-            string userId = User.Identity.GetUserId();
-            Game game = repo.Get(id);
-            if (!game.GameUsers.Any(gameUser => gameUser.userId == userId && gameUser.gameId == game.id))
+            if (currentGames.Contains(id))
             {
-                game.GameUsers.Add(new GameUser()
+                string userId = User.Identity.GetUserId();
+                Game game = repo.Get(id);
+                if (!game.GameUsers.Any(gameUser => gameUser.userId == userId && gameUser.gameId == game.id))
                 {
-                    gameId = id,
-                    userId = userId
-                });
-                repo.Save();
-            }
-            return View(game);
-        }
+                    game.GameUsers.Add(new GameUser()
+                    {
+                        gameId = id,
+                        userId = userId
+                    });
+                    repo.Save();
+                }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Game(Game game)
-        {
-            return Content("");
+                return View(game);
+            }
+
+            return RedirectToAction("JoinGame");
         }
     }
 }

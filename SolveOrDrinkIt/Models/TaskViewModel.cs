@@ -34,7 +34,7 @@ namespace SolveOrDrinkIt.Models
     }
     public enum Type
     {
-        Test1,
-        Test2
+        All,
+        Single
     };
 }
