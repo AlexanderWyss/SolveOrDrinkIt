@@ -24,6 +24,7 @@ namespace SolveOrDrinkIt.Models
         public int id { get; set; }
         public int deckId { get; set; }
         public System.DateTime playDatetime { get; set; }
+        public string name { get; set; }
     
         public virtual Deck Deck { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

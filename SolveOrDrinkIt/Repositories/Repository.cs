@@ -11,9 +11,9 @@ namespace SolveOrDrinkIt.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext Context;
+        protected readonly SolveOrDrinkItEntities Context;
 
-        public Repository(DbContext context)
+        public Repository(SolveOrDrinkItEntities context)
         {
             Context = context;
         }

@@ -27,6 +27,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="deckId" Type="int" Nullable="false" />
           <Property Name="playDatetime" Type="datetime" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="GameUser">
           <Key>
@@ -55,7 +56,9 @@
           <Property Name="type" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="DeckTask_fk0">
-          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DeckTask" Type="Self.DeckTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Task">
@@ -67,7 +70,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="DeckTask_fk1">
-          <End Role="Deck" Type="Self.Deck" Multiplicity="1" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DeckTask" Type="Self.DeckTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Deck">
@@ -165,6 +170,7 @@
           <NavigationProperty Name="Deck" Relationship="Self.Game_fk0" FromRole="Game" ToRole="Deck" />
           <NavigationProperty Name="GameUsers" Relationship="Self.GameUser_fk0" FromRole="Game" ToRole="GameUser" />
           <NavigationProperty Name="Scores" Relationship="Self.Score_fk0" FromRole="Game" ToRole="Score" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Score">
           <Key>
@@ -275,6 +281,7 @@
           <EntitySetMapping Name="Games">
             <EntityTypeMapping TypeName="SolveOrDrinkItModel.Game">
               <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="deckId" ColumnName="deckId" />
                 <ScalarProperty Name="playDatetime" ColumnName="playDatetime" />

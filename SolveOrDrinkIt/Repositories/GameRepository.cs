@@ -13,5 +13,10 @@ namespace SolveOrDrinkIt.Repositories
            : base(context)
         {
         }
+
+        public IEnumerable<Game> Get(IEnumerable<int> ids)
+        {
+            return Context.Games.Where(game => ids.Contains(game.id));
+        }
     }
 }

@@ -330,7 +330,7 @@
     <Content Include="Views\Decks\Details.cshtml" />
     <Content Include="Views\Decks\Edit.cshtml" />
     <Content Include="Views\Decks\Index.cshtml" />
-    <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\Games\Create.cshtml" />
     <Content Include="Views\Games\JoinGame.cshtml" />
     <Content Include="Views\Games\Game.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckBoxListItem.cshtml" />
