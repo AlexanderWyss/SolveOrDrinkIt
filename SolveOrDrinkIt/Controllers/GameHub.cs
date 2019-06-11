@@ -46,9 +46,10 @@ namespace SolveOrDrinkIt.Controllers
         private void NextTask(string gameId)
         {
             List<Models.Task> tasks = repo.Get(gameId.AsInt()).Deck.Tasks.ToList();
-            ComputedTask task  = new ComputedTask()
+            ComputedTask task  = new ComputedTask() //TODO
             {
                 Task = tasks[new Random().Next(tasks.Count)]
+                //TODO user
             };
             lastTasks[gameId] = task;
             SendTask(gameId, task);
