@@ -15,18 +15,20 @@ namespace SolveOrDrinkIt.Controllers
     [Authorize]
     public class DecksController : Controller
     {
-        private SolveOrDrinkItEntities db = new SolveOrDrinkItEntities();
+        private DeckRepository repo; 
         private TaskRepository taskRepo;
 
         public DecksController()
         {
+            SolveOrDrinkItEntities db = new SolveOrDrinkItEntities();
+            repo = new DeckRepository(db);
             taskRepo = new TaskRepository(db);
         }
 
         // GET: Decks
         public ActionResult Index()
         {
-            return View(db.Decks.ToList());
+            return View(repo.GetAll());
         }
 
         // GET: Decks/Details/5
@@ -36,7 +38,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deck deck = db.Decks.Find(id);
+            Deck deck = repo.Get(id);
             if (deck == null)
             {
                 return HttpNotFound();
@@ -47,7 +49,7 @@ namespace SolveOrDrinkIt.Controllers
         // GET: Decks/Create
         public ActionResult Create()
         {
-            return View(new DeckViewModel(db.Tasks.ToList()));
+            return View(new DeckViewModel(taskRepo.GetAll()));
         }
 
         // POST: Decks/Create
@@ -55,30 +57,16 @@ namespace SolveOrDrinkIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DeckViewModel deck)
+        public ActionResult Create(DeckViewModel deckVM)
         {
             if (ModelState.IsValid)
             {
-                db.Decks.Add(toModel(deck));
-                db.SaveChanges();
+                repo.Add(ToModel(deckVM));
+                repo.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(deck);
-        }
-
-        private Deck toModel(DeckViewModel deckVM)
-        {
-            Deck deck = new Deck()
-            {
-                id = deckVM.id,
-                name = deckVM.name
-            };
-            foreach (int selectedTaskId in deckVM.selectedIds)
-            {
-                deck.Tasks.Add(taskRepo.Get(selectedTaskId));
-            }
-            return deck;
+            return View(deckVM);
         }
 
         // GET: Decks/Edit/5
@@ -88,12 +76,12 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deck deck = db.Decks.Find(id);
+            Deck deck = repo.Get(id);
             if (deck == null)
             {
                 return HttpNotFound();
             }
-            return View(deck);
+            return View(new DeckViewModel(deck, taskRepo.GetAll()));
         }
 
         // POST: Decks/Edit/5
@@ -101,15 +89,15 @@ namespace SolveOrDrinkIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name")] Deck deck)
+        public ActionResult Edit(DeckViewModel deckVM)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(deck).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Update(ToModel(deckVM));
+                repo.Save();
                 return RedirectToAction("Index");
             }
-            return View(deck);
+            return View(deckVM);
         }
 
         // GET: Decks/Delete/5
@@ -119,7 +107,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deck deck = db.Decks.Find(id);
+            Deck deck = repo.Get(id);
             if (deck == null)
             {
                 return HttpNotFound();
@@ -132,19 +120,37 @@ namespace SolveOrDrinkIt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Deck deck = db.Decks.Find(id);
-            db.Decks.Remove(deck);
-            db.SaveChanges();
+            repo.Remove(id);
+            repo.Save();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        private Deck ToModel(DeckViewModel deckVM)
         {
-            if (disposing)
+            Deck deck;
+            if (deckVM.id == null)
             {
-                db.Dispose();
+                 deck = new Deck()
+                {
+                    name = deckVM.name
+                };
             }
-            base.Dispose(disposing);
+            else
+            {
+                deck = repo.Get(deckVM.id);
+                deck.name = deckVM.name;
+            }
+            ReplaceTasks(deck, deckVM.selectedIds);
+            return deck;
+        }
+
+        private void ReplaceTasks(Deck deck, int[] selectedIds)
+        {
+            deck.Tasks.Clear();
+            foreach (int selectedTaskId in selectedIds)
+            {
+                deck.Tasks.Add(taskRepo.Get(selectedTaskId));
+            }
         }
     }
 }

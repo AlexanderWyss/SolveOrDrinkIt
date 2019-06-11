@@ -22,6 +22,7 @@ namespace SolveOrDrinkIt.Models
         {
             id = deck.id;
             name = deck.name;
+            selectedIds = deck.Tasks.Select(task => task.id).ToArray();
             setItems(tasks);
         }
 
@@ -34,7 +35,7 @@ namespace SolveOrDrinkIt.Models
             });
         }
 
-        public int id { get; set; }
+        public int? id { get; set; }
 
         [Required]
         public string name { get; set; }

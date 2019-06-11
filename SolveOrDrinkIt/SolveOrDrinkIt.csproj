@@ -202,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CheckedBoxListItem.cs" />
     <Compile Include="Models\Deck.cs">
       <DependentUpon>SolveOrDrinkIt.tt</DependentUpon>
     </Compile>
@@ -332,6 +333,7 @@
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\Games\JoinGame.cshtml" />
     <Content Include="Views\Games\Game.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBoxListItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

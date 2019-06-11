@@ -1,4 +1,4 @@
-﻿@model SolveOrDrinkIt.Models.Deck
+﻿@model SolveOrDrinkIt.Models.DeckViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -24,7 +24,13 @@
                 @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.selectedIds, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.selectedIds, Model.items, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.selectedIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
