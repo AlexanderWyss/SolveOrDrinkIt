@@ -1,4 +1,4 @@
-﻿@model SolveOrDrinkIt.Models.Deck
+﻿@model SolveOrDrinkIt.Models.DeckViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -18,12 +18,12 @@
             @Html.DisplayFor(model => model.name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Tasks)
+            @Html.DisplayNameFor(model => model.selectedTasks)
         </dt>
-        @foreach (var task in Model.Tasks)
+        @foreach (var task in Model.selectedTasks)
         {
             <dd>
-                @Html.DisplayFor(modelTask => task.text)
+                @Html.DisplayFor(modelTask => task.Display)
                 <hr />
             </dd>
         }

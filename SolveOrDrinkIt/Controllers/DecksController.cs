@@ -29,7 +29,7 @@ namespace SolveOrDrinkIt.Controllers
         // GET: Decks
         public ActionResult Index()
         {
-            return View(repo.GetAll());
+            return View(repo.GetAll().Select(deck => new DeckViewModel(deck)));
         }
 
         // GET: Decks/Details/5
@@ -44,7 +44,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return HttpNotFound();
             }
-            return View(deck);
+            return View(new DeckViewModel(deck));
         }
 
         // GET: Decks/Create
@@ -113,7 +113,7 @@ namespace SolveOrDrinkIt.Controllers
             {
                 return HttpNotFound();
             }
-            return View(deck);
+            return View(new DeckViewModel(deck));
         }
 
         // POST: Decks/Delete/5

@@ -17,7 +17,12 @@ namespace SolveOrDrinkIt.Models
         {
             setItems(new List<Task>(), tasks);
         }
-
+        public DeckViewModel(Deck deck)
+        {
+            id = deck.id;
+            name = deck.name;
+            setItems(deck.Tasks, deck.Tasks);
+        }
         public DeckViewModel(Deck deck, IEnumerable<Task> tasks)
         {
             id = deck.id;
@@ -40,5 +45,10 @@ namespace SolveOrDrinkIt.Models
         [Required]
         public string name { get; set; }
         public IEnumerable<CheckBoxListItem> tasks { get; set; }
+
+        public IEnumerable<CheckBoxListItem> selectedTasks
+        {
+            get { return tasks.Where(task => task.IsChecked); }
+        }
     }
 }

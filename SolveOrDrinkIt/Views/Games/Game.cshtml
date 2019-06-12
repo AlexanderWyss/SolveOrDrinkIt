@@ -6,10 +6,17 @@
 
 <h2>Game</h2>
 <div class="container">
-    <p id="task"></p>
-    <input type="button" id="completed" value="Completed" />
-    <input type="button" id="drink" value="Drink" />
-    <input type="button" id="end" value="End" />
+    <h3>
+        @Html.DisplayFor(model => model.name)
+    </h3>
+    <p id="task" style="background-color: lightgrey; padding: 1rem;"></p>
+    <div>
+       <input type="button" id="drink" value="Drink"/>
+       <input type="button" id="completed" value="Completed"/>
+    </div>
+    <div>
+       <input type="button" id="end" value="End"/>
+    </div>
 </div>
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>

@@ -31,13 +31,12 @@ namespace SolveOrDrinkIt.Controllers
         // GET: Games/Create
         public ActionResult Create()
         {
-            ViewBag.deckId = new SelectList(deckRepo.GetAll(), "id", "name");
-            return View();
+            return View(new GameViewModel(deckRepo.GetAll()));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,deckId,playDatetime,name")] Game game)
+        public ActionResult Create([Bind(Include = "id,deckId,name")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -47,9 +46,7 @@ namespace SolveOrDrinkIt.Controllers
                 currentGames.Add(game.id);
                 return RedirectToAction("Game", new { game.id });
             }
-
-            ViewBag.deckId = new SelectList(deckRepo.GetAll(), "id", "name", game.deckId);
-            return View(game);
+            return View(new GameViewModel(game, deckRepo.GetAll()));
         }
 
         // GET: Games/JoinGame

@@ -243,7 +243,9 @@
       <DependentUpon>SolveOrDrinkIt.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DeckViewModel.cs" />
+    <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
+    <Compile Include="Models\TaskType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
     <Compile Include="Repositories\ScoreRepository .cs" />

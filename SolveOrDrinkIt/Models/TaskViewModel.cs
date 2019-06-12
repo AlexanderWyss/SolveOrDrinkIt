@@ -17,11 +17,12 @@ namespace SolveOrDrinkIt.Models
             id = task.id;
             text = task.text;
             drinks = task.drinks; 
-            type = (Type) task.type;
+            type = (TaskType) task.type;
         }
 
         public int id { get; set; }
 
+        [MaxLength(255)]
         [Required]
         public string text { get; set; }
 
@@ -29,12 +30,7 @@ namespace SolveOrDrinkIt.Models
         public int drinks { get; set; }
 
         [Required]
-        public Type type { get; set; }
+        public TaskType type { get; set; }
 
     }
-    public enum Type
-    {
-        All,
-        Single
-    };
 }
