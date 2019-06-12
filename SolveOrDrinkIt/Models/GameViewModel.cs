@@ -26,12 +26,7 @@ namespace SolveOrDrinkIt.Models
             deckId = game.deckId;
             this.availabeDecks = new SelectList(availabeDecks, "id", "name", game.deckId);
         }
-        public GameViewModel(Game game)
-        {
-            id = game.id;
-            name = game.name;
-            deckId = game.deckId;
-        }
+
         public int id { get; set; }
 
         [MaxLength(255)]

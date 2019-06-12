@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace SolveOrDrinkIt.Models
 {
@@ -12,22 +13,20 @@ namespace SolveOrDrinkIt.Models
         {
 
         }
-        public ScoreViewModel (Score score)
+        public ScoreViewModel (Score score, UserManager<ApplicationUser> userManager)
         {
             id = score.id;
-            name = score.Game.name;
-            userId = score.userId;
+            gameName = score.Game.name;
+            username = userManager.FindById(score.userId).Email.Split('@')[0];
             this.score = score.score1;
-            Game= new GameViewModel( score.Game);
         }
         public int id { get; set; }
-    
-        public string name { get; set; }
+
+        [DisplayName("Game-Name")]
+        public string gameName { get; set; }
         [DisplayName("Username")]
-        public string userId { get; set; }
+        public string username { get; set; }
         [DisplayName("Score")]
         public int score { get; set; }
-
-        public GameViewModel Game { get; set; }
     }
 }
