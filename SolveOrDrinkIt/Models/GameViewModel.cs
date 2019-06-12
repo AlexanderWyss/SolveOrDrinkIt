@@ -44,5 +44,15 @@ namespace SolveOrDrinkIt.Models
         public int deckId { get; set; }
 
         public IEnumerable<SelectListItem> availabeDecks { get; set; }
+
+        public Game ToModel()
+        {
+            return new Game()
+            {
+                id = id,
+                name = name,
+                deckId = deckId
+            };
+        }
     }
 }

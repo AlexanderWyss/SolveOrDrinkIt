@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Foolproof;
 
 namespace SolveOrDrinkIt.Models
 {
@@ -24,6 +25,7 @@ namespace SolveOrDrinkIt.Models
         public int id { get; set; }
 
         [MaxLength(255)]
+        [TaskTypeValidation]
         [Required]
         [DisplayName("Text")]
         public string text { get; set; }
@@ -36,5 +38,15 @@ namespace SolveOrDrinkIt.Models
         [DisplayName("Type")]
         public TaskType type { get; set; }
 
+        public Task ToModel()
+        {
+            return new Task()
+            {
+                id = id,
+                text = text,
+                drinks = drinks,
+                type = (int) type
+            };
+        }
     }
 }

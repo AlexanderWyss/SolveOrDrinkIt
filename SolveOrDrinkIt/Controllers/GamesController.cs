@@ -36,17 +36,18 @@ namespace SolveOrDrinkIt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,deckId,name")] Game game)
+        public ActionResult Create(GameViewModel gameVM)
         {
             if (ModelState.IsValid)
             {
+                Game game = gameVM.ToModel();
                 game.playDatetime = DateTime.Now;
                 repo.Add(game);
                 repo.Save();
                 currentGames.Add(game.id);
                 return RedirectToAction("Game", new { game.id });
             }
-            return View(new GameViewModel(game, deckRepo.GetAll()));
+            return View(gameVM);
         }
 
         // GET: Games/JoinGame

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.WebPages;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.SignalR;
 using SolveOrDrinkIt.Models;
 using SolveOrDrinkIt.Repositories;
@@ -13,7 +15,20 @@ namespace SolveOrDrinkIt.Controllers
     public class GameHub : Hub
     {
         private static Dictionary<string, ComputedTask> lastTasks = new Dictionary<string, ComputedTask>();
-        private GameRepository repo = new GameRepository(new SolveOrDrinkItEntities());
+        private GameRepository repo;
+        private ScoreRepository scoreRepo;
+
+        private UserManager<ApplicationUser> userManager =
+            new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
+
+        private Random random = new Random();
+
+        public GameHub()
+        {
+            SolveOrDrinkItEntities solveOrDrinkItEntities = new SolveOrDrinkItEntities();
+            repo = new GameRepository(solveOrDrinkItEntities);
+            scoreRepo = new ScoreRepository(solveOrDrinkItEntities);
+        }
 
         public Task JoinGame(string gameId)
         {
@@ -34,25 +49,64 @@ namespace SolveOrDrinkIt.Controllers
 
         public void Drink(string gameId)
         {
-            //TODO add score
+            ComputedTask lastTask = lastTasks[gameId];
+            if (((TaskType) lastTask.Task.type).IsSingleUser())
+            {
+                AddScore(gameId.AsInt(), lastTask.User.Id, lastTask.Task.drinks);
+            }
+            else
+            {
+                foreach (GameUser gameUser in repo.Get(gameId.AsInt()).GameUsers)
+                {
+                    AddScore(gameId.AsInt(), gameUser.userId, lastTask.Task.drinks);
+                }
+            }
+            
             NextTask(gameId);
+        }
+
+        private void AddScore(int gameId, string userId, int drinks)
+        {
+            Score score = scoreRepo.getByGameAndUser(gameId, userId);
+            if (score == null)
+            {
+                scoreRepo.Add(new Score()
+                {
+                    gameId = gameId,
+                    userId = userId,
+                    score1 = drinks
+                });
+            }
+            else
+            {
+                score.score1 += drinks;
+                scoreRepo.Update(score);
+            }
+            scoreRepo.Save();
         }
 
         public void Completed(string gameId)
         {
-           NextTask(gameId);
+            NextTask(gameId);
         }
 
         private void NextTask(string gameId)
         {
-            List<Models.Task> tasks = repo.Get(gameId.AsInt()).Deck.Tasks.ToList();
-            ComputedTask task  = new ComputedTask() //TODO
+            Game game = repo.Get(gameId.AsInt());
+            List<Models.Task> tasks = game.Deck.Tasks.ToList();
+            Models.Task task;
+            do
             {
-                Task = tasks[new Random().Next(tasks.Count)]
-                //TODO user
+                task = tasks[random.Next(tasks.Count)];
+            } while (lastTasks.ContainsKey(gameId) && task.id == lastTasks[gameId].Task.id);
+            GameUser gameUser = game.GameUsers.ToList()[random.Next(game.GameUsers.Count)];
+            ComputedTask computedTask = new ComputedTask()
+            {
+                Task = task,
+                User = userManager.FindById(gameUser.userId)
             };
-            lastTasks[gameId] = task;
-            SendTask(gameId, task);
+            lastTasks[gameId] = computedTask;
+            SendTask(gameId, computedTask);
         }
 
         private void SendTask(string gameId, ComputedTask task)
@@ -62,12 +116,14 @@ namespace SolveOrDrinkIt.Controllers
 
         private bool ShowCompletedButton(ComputedTask task)
         {
-            return task.Task.type == 0; //TODO
+            return ((TaskType) task.Task.type).IsCompletable();
         }
 
         private string RenderText(ComputedTask task)
         {
-            return task.Task.text; //TODO
+            return task.Task.text
+                .Replace(TaskTypeExtention.DrinkPlaceholder, task.Task.drinks.ToString())
+                .Replace(TaskTypeExtention.UserPlaceholder, task.User.Email.Split('@')[0]);
         }
 
         public void EndGame(string gameId)
@@ -81,5 +137,6 @@ namespace SolveOrDrinkIt.Controllers
     public class ComputedTask
     {
         public Models.Task Task { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -53,16 +53,16 @@ namespace SolveOrDrinkIt.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,text,drinks,type")] Task task)
+        public ActionResult Create(TaskViewModel task)
         {
             if (ModelState.IsValid)
             {
-                repo.Add(task);
+                repo.Add(task.ToModel());
                 repo.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(new TaskViewModel(task));
+            return View(task);
         }
         
         public ActionResult Edit(int? id)
@@ -81,15 +81,15 @@ namespace SolveOrDrinkIt.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,text,drinks,type")] Task task)
+        public ActionResult Edit(TaskViewModel task)
         {
             if (ModelState.IsValid)
             {
-                repo.Update(task);
+                repo.Update(task.ToModel());
                 repo.Save();
                 return RedirectToAction("Index");
             }
-            return View(new TaskViewModel(task));
+            return View(task);
         }
         
         public ActionResult Delete(int? id)
