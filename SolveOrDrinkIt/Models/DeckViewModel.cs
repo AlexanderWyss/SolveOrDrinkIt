@@ -42,6 +42,7 @@ namespace SolveOrDrinkIt.Models
 
         public int? id { get; set; }
 
+        [MaxLength(255)]
         [Required]
         public string name { get; set; }
         public IEnumerable<CheckBoxListItem> tasks { get; set; }
