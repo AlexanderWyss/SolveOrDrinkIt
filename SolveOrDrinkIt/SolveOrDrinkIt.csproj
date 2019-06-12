@@ -224,6 +224,7 @@
     <Compile Include="Models\Score.cs">
       <DependentUpon>SolveOrDrinkIt.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ScoreViewModel.cs" />
     <Compile Include="Models\SolveOrDrinkIt.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

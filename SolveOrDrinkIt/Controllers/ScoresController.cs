@@ -19,9 +19,18 @@ namespace SolveOrDrinkIt.Controllers
         // GET: Scores
         public ActionResult Index()
         {
-            var scores = db.Scores.Include(s => s.Game);
-            return View(scores.ToList());
+            List<Score> scores = db.Scores.Include(s => s.Game).ToList();
+            return View(ToViewModel(scores));
         }
- 
+        private IEnumerable<ScoreViewModel> ToViewModel(List<Score> scores)
+        {
+            List<ScoreViewModel> taskViewModels = new List<ScoreViewModel>();
+            foreach (var score in scores)
+            {
+                taskViewModels.Add(new ScoreViewModel(score));
+            }
+            return taskViewModels;
+        }
+
     }
 }

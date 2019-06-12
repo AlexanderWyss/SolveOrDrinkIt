@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -24,12 +25,15 @@ namespace SolveOrDrinkIt.Models
 
         [MaxLength(255)]
         [Required]
+        [DisplayName("Text")]
         public string text { get; set; }
 
         [Required]
+        [DisplayName("Drinks")]
         public int drinks { get; set; }
 
         [Required]
+        [DisplayName("Type")]
         public TaskType type { get; set; }
 
     }

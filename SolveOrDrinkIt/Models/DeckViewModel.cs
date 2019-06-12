@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -44,9 +45,11 @@ namespace SolveOrDrinkIt.Models
 
         [MaxLength(255)]
         [Required]
+        [DisplayName("Deck Name")]
         public string name { get; set; }
+        [DisplayName("Tasks")]
         public IEnumerable<CheckBoxListItem> tasks { get; set; }
-
+        [DisplayName("Selected Tasks")]
         public IEnumerable<CheckBoxListItem> selectedTasks
         {
             get { return tasks.Where(task => task.IsChecked); }
