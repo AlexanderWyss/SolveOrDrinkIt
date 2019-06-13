@@ -18,7 +18,9 @@
         <th>
             @Html.DisplayNameFor(model => model.gameName)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.datetime)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -31,6 +33,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.gameName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datetime)
         </td>
     </tr>
 }

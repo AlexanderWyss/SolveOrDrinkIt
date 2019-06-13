@@ -9,6 +9,7 @@ namespace SolveOrDrinkIt.Models
 {
     public class ScoreViewModel
     {
+
         public ScoreViewModel()
         {
 
@@ -19,6 +20,7 @@ namespace SolveOrDrinkIt.Models
             gameName = score.Game.name;
             username = userManager.FindById(score.userId).Email.Split('@')[0];
             this.score = score.score1;
+            datetime = score.Game.playDatetime;
         }
         public int id { get; set; }
 
@@ -28,5 +30,7 @@ namespace SolveOrDrinkIt.Models
         public string username { get; set; }
         [DisplayName("Score")]
         public int score { get; set; }
+        [DisplayName("Datum")]
+        public DateTime datetime { get; set; }
     }
 }
